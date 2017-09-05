@@ -5,6 +5,7 @@ import irc.ConfigurationBuilder;
 import irc.DoggyBot;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import twitch.chat.TwitchChat;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,6 +25,8 @@ public class Doggy {
                 .createConfiguration();
         DoggyBot bot = new DoggyBot(config);
         bot.start();
+        TwitchChat chat =  new TwitchChat(bot);
+        chat.connect();
     }
 
     private static String getPassword() {

@@ -43,7 +43,7 @@ public class DoggyBot {
 
     private boolean connect() {
         try {
-            InetAddress  address =  InetAddress.getByName(config.getHost());
+            InetAddress address = InetAddress.getByName(config.getHost());
             socket = new Socket(address, config.getPort());
             printWriter = new PrintWriter(socket.getOutputStream(), true);
             bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -93,7 +93,10 @@ public class DoggyBot {
     }
 
     private void shutdown() {
-       logger.info("Shutdowning");
+        logger.info("Shutdowning");
     }
 
+    public Configuration getConfig() {
+        return config;
+    }
 }
