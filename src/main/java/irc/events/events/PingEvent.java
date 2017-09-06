@@ -3,7 +3,7 @@ package irc.events.events;
 import irc.DoggyBot;
 import irc.events.Event;
 
-public class PingEvent extends Event{
+public class PingEvent extends Event {
 
     private final String response;
 
@@ -14,6 +14,10 @@ public class PingEvent extends Event{
 
     @Override
     public void respond(String response) {
-        bot.send(response);
+        getBot().send(response);
+    }
+
+    public String getResponse() {
+        return response;
     }
 }
