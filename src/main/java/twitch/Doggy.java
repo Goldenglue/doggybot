@@ -20,7 +20,7 @@ public class Doggy {
                 .setDelay(2000)
                 .setHost("irc.chat.twitch.tv")
                 .setPort(6667)
-                .setName("DoggyBotTheThird")
+                .setName("DoggyBotTheFirst")
                 .setPassword(getPassword())
                 .createConfiguration();
         DoggyBot bot = new DoggyBot(config);
@@ -30,7 +30,7 @@ public class Doggy {
     }
 
     private static String getPassword() {
-        Path path = Paths.get("oauthToken");
+        Path path = Paths.get("token.txt");
         String pass = null;
         if (Files.exists(path)) {
             try {
@@ -39,7 +39,7 @@ public class Doggy {
                 e.printStackTrace();
             }
         } else {
-            logger.error("Files with password does not exist.");
+            logger.error("File with password does not exist.");
         }
         return pass;
     }

@@ -1,11 +1,15 @@
 package irc;
 
+import irc.events.managers.GenericListenerManager;
+import irc.events.managers.ListenerManager;
+
 public class Configuration {
     private String name;
     private int delay;
     private String host;
     private int port;
     private String password;
+    private ListenerManager listenerManager;
 
     public Configuration(String name, int delay, String host, int port, String password) {
         this.name = name;
@@ -13,6 +17,7 @@ public class Configuration {
         this.host = host;
         this.port = port;
         this.password = password;
+        this.listenerManager = new GenericListenerManager();
     }
 
     public String getName() {
@@ -53,5 +58,9 @@ public class Configuration {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public ListenerManager getListenerManager() {
+        return listenerManager;
     }
 }

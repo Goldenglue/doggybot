@@ -4,10 +4,12 @@ import irc.output.Output;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class DoggyBot {
     //general
@@ -31,14 +33,13 @@ public class DoggyBot {
 
     public boolean start() {
         try {
-            connect();
+            return connect();
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("Connection interrupted");
             logger.error("Start failed");
             return false;
         }
-        return true;
     }
 
     private boolean connect() {
@@ -52,8 +53,7 @@ public class DoggyBot {
             logger.error("Failed to connect");
             return false;
         }
-        Thread thread = new Thread(messageProcessing);
-        thread.start();
+        new Thread(messageProcessing).start();
         return true;
 
     }
@@ -79,7 +79,6 @@ public class DoggyBot {
             e.printStackTrace();
             return false;
         }
-        logger.info("Received message: " + input);
         inputHandler.handle(input);
         return true;
     }
@@ -89,6 +88,7 @@ public class DoggyBot {
     }
 
     public void send(String line) {
+        logger.info("Sending: --> " + line);
         sendLineToServer(line);
     }
 

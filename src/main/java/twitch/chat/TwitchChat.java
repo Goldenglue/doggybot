@@ -11,6 +11,16 @@ public class TwitchChat {
 
     public void connect() {
         bot.send("PASS oauth:" + bot.getConfig().getPassword());
-        bot.send("NICK" + bot.getConfig().getName());
+        bot.send("NICK " + bot.getConfig().getName());
+        bot.send("CAP REQ :twitch.tv/membership");
+        bot.send("CAP REQ :twitch.tv/tags");
+        bot.send("JOIN #edwardlol");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //bot.send("CAP REQ :twitch.tv/commands");
     }
 }
