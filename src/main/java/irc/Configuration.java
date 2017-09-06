@@ -1,5 +1,6 @@
 package irc;
 
+import irc.events.GenericEventsListener;
 import irc.events.managers.GenericListenerManager;
 import irc.events.managers.ListenerManager;
 
@@ -18,6 +19,7 @@ public class Configuration {
         this.port = port;
         this.password = password;
         this.listenerManager = new GenericListenerManager();
+        this.listenerManager.addListener(new GenericEventsListener());
     }
 
     public String getName() {

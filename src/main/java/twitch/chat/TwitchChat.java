@@ -14,7 +14,7 @@ public class TwitchChat {
         bot.send("NICK " + bot.getConfig().getName());
         bot.send("CAP REQ :twitch.tv/membership");
         bot.send("CAP REQ :twitch.tv/tags");
-        bot.send("JOIN #edwardlol");
+        bot.send("JOIN #meteos");
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
