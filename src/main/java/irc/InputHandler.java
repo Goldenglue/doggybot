@@ -1,9 +1,5 @@
 package irc;
 
-
-//TODO implement input parser in form of <command> :tmi.twitch.tv \s somenumberswtf \s <user> :<message>
-//TODO process events
-
 import irc.events.events.PingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +12,6 @@ public class InputHandler {
     private final Logger logger = LogManager.getLogger();
     private final Configuration configuration;
 
-
     public InputHandler(DoggyBot bot) {
         this.bot = bot;
         this.configuration = bot.getConfig();
@@ -24,20 +19,23 @@ public class InputHandler {
 
     public void handle(String input) {
 
-        logger.info("Received message --> " + input);
-        if (input.contains("PING :tmi.twitch.tv")) {
+        List<String> split = split(input);
+        logger.info(input);
+        if (split.get(0).equals("PING")) {
             configuration.getListenerManager().onEvent(new PingEvent(bot));
         }
-
-
-        //List<String> splittedLines = split(input);
+        /*if (input.contains("PRIVMSG")) {
+            logger.info(split.get(0));
+            logger.info(split.get(1));
+            configuration.getListenerManager().onEvent(new MessageEvent(bot));
+        }*/
     }
 
     private List<String> split(String input) {
         List<String> lines = new ArrayList<>();
-        String[] split = input.split("\\s");
-        lines.add(split[1]);
+        String[] split = input.split("\\s", 2);
         lines.add(split[0]);
+        lines.add(split[1]);
         return lines;
 
     }

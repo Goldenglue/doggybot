@@ -15,13 +15,14 @@ public class TwitchChat {
         bot.send("CAP REQ :twitch.tv/membership");
         bot.send("CAP REQ :twitch.tv/tags");
         bot.send("CAP REQ :twitch.tv/commands");
-        bot.send("JOIN #meteos");
+
+        bot.send("JOIN #godismydog");
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        bot.send("PRIVMSG #godismydog : спасибо, сынок");
 
     }
 }

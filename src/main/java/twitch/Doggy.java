@@ -3,6 +3,7 @@ package twitch;
 import irc.Configuration;
 import irc.ConfigurationBuilder;
 import irc.DoggyBot;
+import irc.events.GenericEventsListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import twitch.chat.TwitchChat;
@@ -22,6 +23,7 @@ public class Doggy {
                 .setPort(6667)
                 .setName("DoggyBotTheFirst")
                 .setPassword(getPassword())
+                .addListener(new GenericEventsListener())
                 .createConfiguration();
         DoggyBot bot = new DoggyBot(config);
         bot.start();
