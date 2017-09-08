@@ -24,22 +24,21 @@ public class OutputQueue {
 
         taskRunnable = () -> {
             if (queue.size() > 0) {
-                System.out.println(queue.size());
+                System.out.println("In queue of size " + queue.size());
                 lastSent = Instant.now().toEpochMilli();
                 bot.sendLineToServer(queue.poll());
             }
         };
-        service.scheduleAtFixedRate(taskRunnable, 0, 1500, TimeUnit.MILLISECONDS);
+        service.scheduleAtFixedRate(taskRunnable, 0, bot.getConfig().getDelay(), TimeUnit.MILLISECONDS);
     }
 
     public void send(String line) {
-        if (queue.size() == 0 && (Instant.now().toEpochMilli() - lastSent) > delay) {
+        if (queue.size() == 0 && (Instant.now().toEpochMilli() - lastSent) < delay) {
             lastSent = Instant.now().toEpochMilli();
             sendNow(line);
         } else {
             queue.offer(line);
         }
-        //bot.sendLineToServer(line);
     }
 
     public void sendNow(String line) {

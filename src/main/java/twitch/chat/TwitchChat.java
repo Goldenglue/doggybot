@@ -18,5 +18,13 @@ public class TwitchChat {
 
         bot.joinChannel("#embertraveller");
 
+        try {
+
+            Thread.sleep(15000);
+            bot.send("PRIVMSG #embertraveller: kek");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 }
