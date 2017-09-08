@@ -13,7 +13,7 @@ public class Configuration {
     private int port;
     private String password;
     private ListenerManager listenerManager;
-    private Set<Channel> channels = new HashSet<>();
+    private final Set<Channel> channels = new HashSet<>();
 
     public Configuration(String name, int delay, String host, int port, String password, ListenerManager listenerManager) {
         this.name = name;

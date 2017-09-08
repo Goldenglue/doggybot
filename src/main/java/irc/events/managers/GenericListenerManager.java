@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GenericListenerManager extends AbstractListenerManager {
-    protected Set<Listener> listeners = new HashSet<>();
+    protected final Set<Listener> listeners = new HashSet<>();
 
     @Override
     public void onEvent(Event event) {

@@ -18,7 +18,7 @@ public class Doggy {
 
     public static void main(String[] args) {
         Configuration config = new ConfigurationBuilder()
-                .setDelay(2000)
+                .setDelay(1500)
                 .setHost("irc.chat.twitch.tv")
                 .setPort(6667)
                 .setName("DoggyBotTheFirst")

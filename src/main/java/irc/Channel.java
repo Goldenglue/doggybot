@@ -14,4 +14,12 @@ public class Channel {
     private void addUser(User user) {
         activeUsers.add(user);
     }
+
+    public Set<User> getActiveUsers() {
+        return activeUsers;
+    }
+
+    public String getChannelName() {
+        return channelName;
+    }
 }

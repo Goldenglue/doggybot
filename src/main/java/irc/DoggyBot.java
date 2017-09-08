@@ -1,6 +1,6 @@
 package irc;
 
-import irc.output.Output;
+import irc.output.OutputQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,22 +12,22 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 public class DoggyBot {
-    //general
-    //irc stuff
-    private Configuration config;
-    private InputHandler inputHandler;
-    private Output output;
-    //logger
-    private Logger logger = LogManager.getLogger();
+
+    private final Configuration config;
+    private final InputHandler inputHandler;
+    private OutputQueue outputQueue;
+
+    private final Logger logger = LogManager.getLogger();
     private Socket socket;
 
     private PrintWriter printWriter;
     private BufferedReader bufferedReader;
-    //runnable
-    private Runnable messageProcessing = this::processLine;
+
+    private final Runnable messageProcessing = this::processLine;
 
     public DoggyBot(Configuration config) {
         this.config = config;
+        this.outputQueue = new OutputQueue(this);
         inputHandler = new InputHandler(this);
     }
 
@@ -83,18 +83,18 @@ public class DoggyBot {
         return true;
     }
 
-    private void sendLineToServer(String line) {
+    public void sendLineToServer(String line) {
+        logger.info("Sending: --> " + line);
         printWriter.println(line);
     }
 
     public void send(String line) {
-        logger.info("Sending: --> " + line);
-        sendLineToServer(line);
+        outputQueue.send(line);
     }
 
     public void joinChannel(String channelName) {
         getConfig().addChannel(new Channel(channelName));
-        sendLineToServer("JOIN " + channelName);
+        send("JOIN " + channelName);
     }
 
     private void shutdown() {

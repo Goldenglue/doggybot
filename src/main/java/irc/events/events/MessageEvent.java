@@ -33,4 +33,16 @@ public class MessageEvent extends Event {
     public String getMessage() {
         return message;
     }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Map<String, String> getTags() {
+        return tags;
+    }
 }

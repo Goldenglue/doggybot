@@ -16,7 +16,7 @@ public class TwitchChat {
         bot.send("CAP REQ :twitch.tv/tags");
         bot.send("CAP REQ :twitch.tv/commands");
 
-        bot.joinChannel("#navioot");
+        bot.joinChannel("#embertraveller");
 
     }
 }
