@@ -92,6 +92,11 @@ public class DoggyBot {
         sendLineToServer(line);
     }
 
+    public void joinChannel(String channelName) {
+        getConfig().addChannel(new Channel(channelName));
+        sendLineToServer("JOIN " + channelName);
+    }
+
     private void shutdown() {
         logger.info("Shutdowning");
     }

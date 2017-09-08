@@ -3,6 +3,9 @@ package irc;
 import irc.events.Listener;
 import irc.events.managers.ListenerManager;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Configuration {
     private String name;
     private int delay;
@@ -10,6 +13,7 @@ public class Configuration {
     private int port;
     private String password;
     private ListenerManager listenerManager;
+    private Set<Channel> channels = new HashSet<>();
 
     public Configuration(String name, int delay, String host, int port, String password, ListenerManager listenerManager) {
         this.name = name;
@@ -66,6 +70,13 @@ public class Configuration {
 
     public void addListener(Listener listener) {
         listenerManager.addListener(listener);
+    }
 
+    public Set<Channel> getChannels() {
+        return channels;
+    }
+
+    public void addChannel(Channel channel) {
+        channels.add(channel);
     }
 }

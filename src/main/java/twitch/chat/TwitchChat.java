@@ -3,7 +3,7 @@ package twitch.chat;
 import irc.DoggyBot;
 
 public class TwitchChat {
-    DoggyBot bot;
+    private DoggyBot bot;
 
     public TwitchChat(DoggyBot bot) {
         this.bot = bot;
@@ -16,13 +16,7 @@ public class TwitchChat {
         bot.send("CAP REQ :twitch.tv/tags");
         bot.send("CAP REQ :twitch.tv/commands");
 
-        bot.send("JOIN #godismydog");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        bot.send("PRIVMSG #godismydog : спасибо, сынок");
+        bot.joinChannel("#navioot");
 
     }
 }

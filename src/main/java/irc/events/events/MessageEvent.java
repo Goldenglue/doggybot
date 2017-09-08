@@ -8,17 +8,21 @@ import irc.events.Event;
 import java.util.Map;
 
 public class MessageEvent extends Event {
-    private String message;
     private Channel channel;
     private User user;
+    private String message;
     private Map<String, String> tags;
 
-    public MessageEvent(DoggyBot bot, String message, Channel channel, User user, Map<String, String> tags) {
+    public MessageEvent(DoggyBot bot, Channel channel, User user, String message, Map<String, String> tags) {
         super(bot);
-        this.message = message;
         this.channel = channel;
         this.user = user;
+        this.message = message;
         this.tags = tags;
+    }
+
+    public MessageEvent(DoggyBot bot) {
+        super(bot);
     }
 
     @Override
