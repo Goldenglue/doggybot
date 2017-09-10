@@ -14,14 +14,16 @@ public class Configuration {
     private String password;
     private ListenerManager listenerManager;
     private final Set<Channel> channels = new HashSet<>();
+    private final Set<Channel> channelsToAutoJoin;
 
-    public Configuration(String name, int delay, String host, int port, String password, ListenerManager listenerManager) {
+    public Configuration(String name, int delay, String host, int port, String password, ListenerManager listenerManager, Set<Channel> channelsToAutoJoin) {
         this.name = name;
         this.delay = delay;
         this.host = host;
         this.port = port;
         this.password = password;
         this.listenerManager = listenerManager;
+        this.channelsToAutoJoin = channelsToAutoJoin;
     }
 
     public String getName() {
@@ -78,5 +80,17 @@ public class Configuration {
 
     public void addChannel(Channel channel) {
         channels.add(channel);
+    }
+
+    public void addChannelToAutoJoin(String channel) {
+        channelsToAutoJoin.add(new Channel(channel));
+    }
+
+    public void addAllChannelsToAutoJoin(Set<Channel> channels) {
+        channelsToAutoJoin.addAll(channels);
+    }
+
+    public Set<Channel> getChannelsToAutoJoin() {
+        return channelsToAutoJoin;
     }
 }

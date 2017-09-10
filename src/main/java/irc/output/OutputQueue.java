@@ -24,7 +24,6 @@ public class OutputQueue {
 
         taskRunnable = () -> {
             if (queue.size() > 0) {
-                System.out.println("In queue of size " + queue.size());
                 lastSent = Instant.now().toEpochMilli();
                 bot.sendLineToServer(queue.poll());
             }
@@ -36,7 +35,7 @@ public class OutputQueue {
         if (queue.size() == 0 && (Instant.now().toEpochMilli() - lastSent) < delay) {
             lastSent = Instant.now().toEpochMilli();
             sendNow(line);
-        } else {
+        } else if (queue.size() < 10) {
             queue.offer(line);
         }
     }

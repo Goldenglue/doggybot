@@ -10,12 +10,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class DoggyBot {
 
     private final Configuration config;
     private final InputHandler inputHandler;
-    private OutputQueue outputQueue;
+    private final OutputQueue outputQueue;
 
     private final Logger logger = LogManager.getLogger();
     private Socket socket;
@@ -23,12 +25,13 @@ public class DoggyBot {
     private PrintWriter printWriter;
     private BufferedReader bufferedReader;
 
+    private final ExecutorService executorService = Executors.newFixedThreadPool(5);
     private final Runnable messageProcessing = this::processLine;
 
     public DoggyBot(Configuration config) {
         this.config = config;
         this.outputQueue = new OutputQueue(this);
-        inputHandler = new InputHandler(this);
+        this.inputHandler = new InputHandler(this);
     }
 
     public boolean start() {
@@ -54,6 +57,17 @@ public class DoggyBot {
             return false;
         }
         new Thread(messageProcessing).start();
+
+        sendLineToServer("PASS oauth:" + getConfig().getPassword());
+        sendLineToServer("NICK " + getConfig().getName());
+        sendLineToServer("CAP REQ :twitch.tv/membership");
+        sendLineToServer("CAP REQ :twitch.tv/tags");
+        sendLineToServer("CAP REQ :twitch.tv/commands");
+
+        if (!getConfig().getChannelsToAutoJoin().isEmpty()) {
+            getConfig().getChannelsToAutoJoin().forEach(channel -> joinChannel(channel.getChannelName()));
+        }
+
         return true;
 
     }
@@ -79,7 +93,8 @@ public class DoggyBot {
             e.printStackTrace();
             return false;
         }
-        inputHandler.handle(input);
+        executorService.submit(() -> inputHandler.handle(input));
+
         return true;
     }
 

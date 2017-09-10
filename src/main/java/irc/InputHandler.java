@@ -29,6 +29,8 @@ public class InputHandler {
         if (split.get(0).equals("PING")) {
             configuration.getListenerManager().onEvent(new PingEvent(bot));
         }
+
+
         if (input.contains("PRIVMSG")) {
             Map<String, String> tags = parseTags(split.get(0));
             List<String> messageDetails = parseUserInfo(split.get(1));

@@ -1,8 +1,12 @@
 package irc;
 
+import irc.events.GenericEventsListener;
 import irc.events.Listener;
-import irc.events.managers.GenericListenerManager;
+import irc.events.managers.AbstractListenerManager;
 import irc.events.managers.ListenerManager;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ConfigurationBuilder {
     private String name;
@@ -11,6 +15,7 @@ public class ConfigurationBuilder {
     private int port;
     private String password;
     private ListenerManager listenerManager;
+    private Set<Channel> channelsToAutoJoin = new HashSet<>();
 
     public ConfigurationBuilder setName(String name) {
         this.name = name;
@@ -42,17 +47,27 @@ public class ConfigurationBuilder {
         return this;
     }
 
+    public ConfigurationBuilder setChannelsToAutoJoin(Set<Channel> channelsToAutoJoin) {
+        this.channelsToAutoJoin = channelsToAutoJoin;
+        return this;
+    }
+
     public ConfigurationBuilder addListener(Listener listener) {
-        if (listenerManager != null) {
-            listenerManager.addListener(listener);
-        } else {
-            listenerManager = new GenericListenerManager();
-            listenerManager.addListener(listener);
-        }
+        listenerManager.addListener(listener);
+        return this;
+    }
+
+    public ConfigurationBuilder addChannelToAutoJoin(Channel channel) {
+        channelsToAutoJoin.add(channel);
+        return this;
+    }
+
+    public ConfigurationBuilder addAllChannelsToAutoJoin(Set<Channel> channels) {
+        channelsToAutoJoin.addAll(channels);
         return this;
     }
 
     public Configuration createConfiguration() {
-        return new Configuration(name, delay, host, port, password, listenerManager);
+        return new Configuration(name, delay, host, port, password, listenerManager, channelsToAutoJoin);
     }
 }

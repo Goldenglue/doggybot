@@ -1,9 +1,11 @@
 package twitch;
 
+import irc.Channel;
 import irc.Configuration;
 import irc.ConfigurationBuilder;
 import irc.DoggyBot;
 import irc.events.GenericEventsListener;
+import irc.events.managers.GenericListenerManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import twitch.chat.TwitchChat;
@@ -23,12 +25,17 @@ public class Doggy {
                 .setPort(6667)
                 .setName("DoggyBotTheFirst")
                 .setPassword(getPassword())
+                .setListenerManager(new GenericListenerManager())
                 .addListener(new GenericEventsListener())
+                .addChannelToAutoJoin(new Channel("#embertraveller"))
+                .addChannelToAutoJoin(new Channel("#navioot"))
+                .addChannelToAutoJoin(new Channel("#alkaizerx"))
                 .createConfiguration();
+
         DoggyBot bot = new DoggyBot(config);
         bot.start();
+
         TwitchChat chat =  new TwitchChat(bot);
-        chat.connect();
     }
 
     private static String getPassword() {
