@@ -8,10 +8,10 @@ import irc.events.Event;
 import java.util.Map;
 
 public class MessageEvent extends Event {
-    private Channel channel;
-    private User user;
-    private String message;
-    private Map<String, String> tags;
+    private final Channel channel;
+    private final User user;
+    private final String message;
+    private final Map<String, String> tags;
 
     public MessageEvent(DoggyBot bot, Channel channel, User user, String message, Map<String, String> tags) {
         super(bot);
@@ -23,7 +23,7 @@ public class MessageEvent extends Event {
 
     @Override
     public void respond(String response) {
-        bot.send("PRIVMSG #" + getChannel().getChannelName() + " :@" + user.getUsername() + " " + response);
+        bot.send("PRIVMSG #" + getChannel().getChannelName() + " :@" + getUser().getUsername() + " " + response);
     }
 
     public String getMessage() {

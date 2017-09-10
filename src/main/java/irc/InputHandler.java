@@ -2,6 +2,7 @@ package irc;
 
 import irc.events.events.MessageEvent;
 import irc.events.events.PingEvent;
+import irc.events.events.UsernoticeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,21 +25,41 @@ public class InputHandler {
 
     public void handle(String input) {
 
-        List<String> split = split(input);
+        List<String> split = splitIntoTagsAndMessage(input);
         logger.info(input);
+        //System.out.println(input);
+        Map<String, String> tags = parseTags(split.get(0));
+
         if (split.get(0).equals("PING")) {
             configuration.getListenerManager().onEvent(new PingEvent(bot));
+            return;
         }
 
-
-        if (input.contains("PRIVMSG")) {
-            Map<String, String> tags = parseTags(split.get(0));
-            List<String> messageDetails = parseUserInfo(split.get(1));
-            configuration.getListenerManager().onEvent(new MessageEvent(bot, new Channel(messageDetails.get(0)), new User(messageDetails.get(1)), messageDetails.get(2), tags));
+        if (split.get(1).startsWith(":")) {
+            String[] tagsCommand = split.get(1).split(" ", 3);
+            String command = tagsCommand[1];
+            String rest = tagsCommand[2];
+            processCommand(command, rest, tags, split.get(1));
         }
     }
 
-    private List<String> split(String input) {
+    private void processCommand(String command, String rest, Map<String, String> tags, String potentialUser) {
+        if (command.equals("PRIVMSG")) {
+            List<String> messageDetails = parseUserInfo(potentialUser);
+            configuration.getListenerManager().onEvent(new MessageEvent(bot, new Channel(messageDetails.get(0)), new User(messageDetails.get(1)), messageDetails.get(2), tags));
+        } else if (command.equals("CLEARCHAT")) {
+
+        } else if (command.equals("ROOMSTATE")) {
+
+        } else if (command.equals("USERSTATE")) {
+
+        } else if (command.equals("USERNOTICE")) {
+            configuration.getListenerManager().onEvent(new UsernoticeEvent(bot));
+        }
+    }
+
+
+    private List<String> splitIntoTagsAndMessage(String input) {
         List<String> lines = new ArrayList<>();
         String[] split = input.split("\\s", 2);
         lines.add(split[0]);
