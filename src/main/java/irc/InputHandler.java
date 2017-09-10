@@ -2,7 +2,7 @@ package irc;
 
 import irc.events.events.MessageEvent;
 import irc.events.events.PingEvent;
-import irc.events.events.UsernoticeEvent;
+import irc.events.events.UserNoticeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,7 +54,7 @@ public class InputHandler {
         } else if (command.equals("USERSTATE")) {
 
         } else if (command.equals("USERNOTICE")) {
-            configuration.getListenerManager().onEvent(new UsernoticeEvent(bot));
+            configuration.getListenerManager().onEvent(new UserNoticeEvent(bot));
         }
     }
 

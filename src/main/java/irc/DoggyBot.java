@@ -109,7 +109,7 @@ public class DoggyBot {
 
     public void joinChannel(String channelName) {
         getConfig().addChannel(new Channel(channelName));
-        send("JOIN " + channelName);
+        send("JOIN #" + channelName);
     }
 
     private void shutdown() {

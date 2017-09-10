@@ -3,9 +3,9 @@ package irc.events.events;
 import irc.DoggyBot;
 import irc.events.Event;
 
-public class UsernoticeEvent extends Event {
+public class UserNoticeEvent extends Event {
 
-    public UsernoticeEvent(DoggyBot bot) {
+    public UserNoticeEvent(DoggyBot bot) {
         super(bot);
     }
 

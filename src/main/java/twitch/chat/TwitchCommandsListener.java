@@ -21,7 +21,12 @@ public class TwitchCommandsListener extends ListenerAdapter {
             case "!uptime":
                 uptime(event);
                 break;
+            case "!join": join(event);
         }
+    }
+
+    private void join(MessageEvent event) {
+        event.getBot().joinChannel(event.getUser().getUsername());
     }
 
     private void uptime(MessageEvent event) {

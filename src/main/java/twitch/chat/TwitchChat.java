@@ -27,7 +27,7 @@ public class TwitchChat {
                 .setListenerManager(new GenericListenerManager())
                 .addListener(new GenericEventsListener())
                 .addListener(new TwitchCommandsListener())
-                .addChannelToAutoJoin(new Channel("#embertraveller"))
+                //.addChannelToAutoJoin(new Channel("#embertraveller"))
                 .createConfiguration();
 
         bot = new DoggyBot(config);
@@ -54,6 +54,6 @@ public class TwitchChat {
 
     public static void start() {
         bot.start();
-        bot.send("PRIVMSG #embertraveller :DoggyBot is ready! PogChamp");
+        //bot.send("PRIVMSG #embertraveller :DoggyBot is ready! PogChamp");
     }
 }
