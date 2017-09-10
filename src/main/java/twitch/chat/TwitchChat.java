@@ -27,6 +27,7 @@ public class TwitchChat {
                 .setListenerManager(new GenericListenerManager())
                 .addListener(new GenericEventsListener())
                 .addListener(new TwitchCommandsListener())
+                .addChannelToAutoJoin(new Channel("doggybotthefirst"))
                 //.addChannelToAutoJoin(new Channel("#embertraveller"))
                 .createConfiguration();
 

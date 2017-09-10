@@ -1,5 +1,6 @@
 package twitch.chat;
 
+import irc.Channel;
 import irc.events.ListenerAdapter;
 import irc.events.events.MessageEvent;
 import twitch.api.Twitch;
@@ -21,12 +22,33 @@ public class TwitchCommandsListener extends ListenerAdapter {
             case "!uptime":
                 uptime(event);
                 break;
-            case "!join": join(event);
+            case "!join":
+                join(event);
+                break;
+            case "!part":
+                part(event);
+                break;
+
         }
     }
 
+    private void part(MessageEvent event) {
+        if (event.getBot().getConfig().getChannels().contains(event.getUser().getUserChannel())) {
+            event.getBot().partFromChannel(event.getUser().getUserChannel());
+        }
+    }
+
+    /**
+     * Prevents user to call bot to join his channel twice
+     * Also only callable from bot's main channel
+     *
+     * @param event
+     */
     private void join(MessageEvent event) {
-        event.getBot().joinChannel(event.getUser().getUsername());
+        if (event.getChannel().getChannelName().equals("doggybotthefirst") && !event.getBot().getConfig().getChannels().contains(event.getUser().getUserChannel())) {
+            event.getBot().joinChannel(event.getUser().getUsername());
+        }
+
     }
 
     private void uptime(MessageEvent event) {

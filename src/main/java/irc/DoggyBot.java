@@ -112,6 +112,10 @@ public class DoggyBot {
         send("JOIN #" + channelName);
     }
 
+    public void partFromChannel(Channel userChannel) {
+        send("PART #" + userChannel.getChannelName());
+    }
+
     private void shutdown() {
         logger.info("Shutdowning");
     }
@@ -119,4 +123,6 @@ public class DoggyBot {
     public Configuration getConfig() {
         return config;
     }
+
+
 }

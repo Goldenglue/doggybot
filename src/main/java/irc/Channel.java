@@ -9,13 +9,24 @@ public class Channel {
     private final Set<User> activeUsers = new HashSet<>();
     private String channelName;
     private Map<String, String> commands = new HashMap<>();
+    private DoggyBot bot;
 
     public Channel(String channelName) {
         this.channelName = channelName;
     }
 
-    private void addUser(User user) {
+    public Channel(String channelName, Map<String, String> commands, DoggyBot bot) {
+        this.channelName = channelName;
+        this.commands = commands;
+        this.bot = bot;
+    }
+
+    public void addUser(User user) {
         activeUsers.add(user);
+    }
+
+    public void addCommand(String command, String response) {
+        commands.put(command, response);
     }
 
     public Set<User> getActiveUsers() {
@@ -24,5 +35,13 @@ public class Channel {
 
     public String getChannelName() {
         return channelName;
+    }
+
+    public Map<String, String> getCommands() {
+        return commands;
+    }
+
+    public DoggyBot getBot() {
+        return bot;
     }
 }

@@ -4,10 +4,12 @@ import irc.Channel;
 import irc.DoggyBot;
 import irc.User;
 import irc.events.Event;
+import irc.events.types.ChannelEvent;
+import irc.events.types.UserEvent;
 
 import java.util.Map;
 
-public class MessageEvent extends Event {
+public class MessageEvent extends Event implements ChannelEvent, UserEvent {
     private final Channel channel;
     private final User user;
     private final String message;
@@ -30,10 +32,12 @@ public class MessageEvent extends Event {
         return message;
     }
 
+    @Override
     public Channel getChannel() {
         return channel;
     }
 
+    @Override
     public User getUser() {
         return user;
     }
