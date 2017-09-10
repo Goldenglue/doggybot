@@ -21,13 +21,9 @@ public class MessageEvent extends Event {
         this.tags = tags;
     }
 
-    public MessageEvent(DoggyBot bot) {
-        super(bot);
-    }
-
     @Override
     public void respond(String response) {
-
+        bot.send("PRIVMSG #" + getChannel().getChannelName() + " :@" + user.getUsername() + " " + response);
     }
 
     public String getMessage() {

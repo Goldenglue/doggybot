@@ -6,7 +6,7 @@ import irc.events.types.GenericEvent;
 import java.time.Instant;
 
 public abstract class Event implements GenericEvent{
-    private final DoggyBot bot;
+    protected final DoggyBot bot;
     protected final Instant timestamp;
 
     public Event(DoggyBot bot) {

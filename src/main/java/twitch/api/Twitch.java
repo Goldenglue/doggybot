@@ -31,10 +31,12 @@ public class Twitch {
 
     public static Duration uptime(String channel) {
         JsonNode root = executeHttpGet("https://api.twitch.tv/kraken/streams/" + getChannelId(channel));
-        if (root != null) {
-            Instant stat = Instant.parse(root.get("srream").get("created_at").asText(Instant.now().toString()));
+
+        if (root != null && root.has("stream") && root.get("stream").has("created_at")) {
+            Instant stat = Instant.parse(root.get("stream").get("created_at").asText(Instant.now().toString()));
             return Duration.between(stat, Instant.now());
         }
+
         return Duration.ZERO;
     }
 
@@ -52,9 +54,9 @@ public class Twitch {
             HttpRequest getRequest = HttpRequest.newBuilder(new URI(request))
                     .header("Accept", "application/vnd.twitchtv.v5+json")
                     .header("Client-ID", clientId)
-                    .header("Authorization","OAuth " + token)
+                    .header("Authorization", "OAuth " + token)
                     .GET().build();
-            HttpResponse<String> response = httpClient.send(getRequest,HttpResponse.BodyHandler.asString());
+            HttpResponse<String> response = httpClient.send(getRequest, HttpResponse.BodyHandler.asString());
 
             if (response.statusCode() == 200) {
                 return new ObjectMapper().readTree(response.body());
