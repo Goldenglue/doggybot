@@ -9,9 +9,9 @@ public class StringFormatting {
     public static String timeStringFromDuration(Duration duration) {
         List<String> timeStrings = new ArrayList<>(4);
         long days = duration.toDays();
-        int hours = duration.toHoursPart();
-        int minutes = duration.toMinutesPart();
-        int seconds = duration.toSecondsPart();
+        int hours = (int) duration.toHours();
+        int minutes = (int) duration.toMinutes();
+        int seconds = (int) (duration.toMillis() / 1000);
 
         if (days > 0) {
             timeStrings.add(days + ((days > 1) ? " Days" : " Day"));

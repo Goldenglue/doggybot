@@ -2,22 +2,20 @@ package twitch.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.incubator.http.HttpClient;
-import jdk.incubator.http.HttpRequest;
-import jdk.incubator.http.HttpResponse;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 
 public class Twitch {
-    private static final HttpClient httpClient = HttpClient.newHttpClient();
     private static String clientId;
     private static String token;
+    private static final OkHttpClient okHttp = new OkHttpClient();
 
     static {
         try {
@@ -51,17 +49,18 @@ public class Twitch {
 
     public static JsonNode executeHttpGet(String request) {
         try {
-            HttpRequest getRequest = HttpRequest.newBuilder(new URI(request))
+            Request getRequest = new Request.Builder()
+                    .url(request)
                     .header("Accept", "application/vnd.twitchtv.v5+json")
                     .header("Client-ID", clientId)
                     .header("Authorization", "OAuth " + token)
-                    .GET().build();
-            HttpResponse<String> response = httpClient.send(getRequest, HttpResponse.BodyHandler.asString());
+                    .get().build();
+            Response response = okHttp.newCall(getRequest).execute();
 
-            if (response.statusCode() == 200) {
-                return new ObjectMapper().readTree(response.body());
+            if (response.code() == 200) {
+                return new ObjectMapper().readTree(response.toString());
             }
-        } catch (URISyntaxException | InterruptedException | IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;

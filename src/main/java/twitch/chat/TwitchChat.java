@@ -28,7 +28,6 @@ public class TwitchChat {
                 .addListener(new GenericEventsListener())
                 .addListener(new TwitchCommandsListener())
                 .addChannelToAutoJoin(new Channel("doggybotthefirst"))
-                //.addChannelToAutoJoin(new Channel("#embertraveller"))
                 .createConfiguration();
 
         bot = new DoggyBot(config);
