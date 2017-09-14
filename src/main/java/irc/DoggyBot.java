@@ -113,7 +113,10 @@ public class DoggyBot {
     }
 
     public void partFromChannel(Channel userChannel) {
-        send("PART #" + userChannel.getChannelName());
+        if (getConfig().getChannels().contains(userChannel)) {
+            send("PART #" + userChannel.getChannelName());
+            getConfig().getChannels().remove(userChannel);
+        }
     }
 
     private void shutdown() {

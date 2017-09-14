@@ -1,6 +1,5 @@
 package twitch.chat;
 
-import irc.Channel;
 import irc.events.ListenerAdapter;
 import irc.events.events.MessageEvent;
 import twitch.api.Twitch;
@@ -57,7 +56,7 @@ public class TwitchCommandsListener extends ListenerAdapter {
             event.respond("Stream is offline! BibleThump");
         } else {
             System.out.println(StringFormatting.timeStringFromDuration(uptime));
-            event.respond("Stream is online for " + StringFormatting.timeStringFromDuration(uptime));
+            event.respond("Stream is online for " + StringFormatting.timeStringFromDuration(uptime) + " PogChamp");
         }
 
     }
