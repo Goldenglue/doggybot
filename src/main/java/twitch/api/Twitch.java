@@ -40,7 +40,7 @@ public class Twitch {
 
     private static int getChannelId(String channel) {
         JsonNode root = executeHttpGet("https://api.twitch.tv/kraken/users?login=" + channel);
-        if (root != null && root.get("_total").asInt() == 1) {
+        if (root != null && root.has("_total") && root.get("_total").asInt() == 1) {
             JsonNode users = root.get("users");
             return users.get(0).get("_id").asInt();
         }
