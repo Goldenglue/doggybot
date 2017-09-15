@@ -1,5 +1,6 @@
 package twitch.api;
 
+import com.fasterxml.jackson.core.PrettyPrinter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.OkHttpClient;
@@ -31,7 +32,7 @@ public class Twitch {
         JsonNode root = executeHttpGet("https://api.twitch.tv/kraken/streams/" + getChannelId(channel));
 
         if (root != null && root.has("stream") && root.get("stream").has("created_at")) {
-            Instant stat = Instant.parse(root.get("stream").get("created_at").asText(Instant.now().toString()));
+            Instant stat = Instant.parse(root.get("stream").get("created_at").asText());
             return Duration.between(stat, Instant.now());
         }
 
@@ -56,9 +57,10 @@ public class Twitch {
                     .header("Authorization", "OAuth " + token)
                     .get().build();
             Response response = okHttp.newCall(getRequest).execute();
-
+            JsonNode jsonNode = new ObjectMapper().readTree(response.body().string());
+            twitch.utils.PrettyPrinter.prettyPrintJSonNode(jsonNode);
             if (response.code() == 200) {
-                return new ObjectMapper().readTree(response.toString());
+                return jsonNode;
             }
         } catch (IOException e) {
             e.printStackTrace();
