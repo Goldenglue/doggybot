@@ -33,4 +33,8 @@ public class DatabaseService {
                 .build();
         return configuration.buildSessionFactory(serviceRegistry);
     }
+
+    public SessionFactory getFactory() {
+        return factory;
+    }
 }
