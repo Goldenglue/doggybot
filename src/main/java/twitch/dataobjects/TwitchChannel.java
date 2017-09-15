@@ -2,6 +2,7 @@ package twitch.dataobjects;
 
 import irc.Channel;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,15 +11,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-public class TwitchChannel implements Serializable{
+public class TwitchChannel implements Serializable {
     @Id
     @GeneratedValue
     private long ID;
     private String name;
+    @ElementCollection
     private Map<String, String> channelCommands = new HashMap<>();
 
+    @SuppressWarnings("UnusedDeclaration")
     public TwitchChannel(Channel channel) {
         this.name = channel.getChannelName();
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    public TwitchChannel() {
     }
 
     public long getID() {

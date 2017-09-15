@@ -3,6 +3,8 @@ package twitch.database;
 import org.hibernate.Session;
 import twitch.dataobjects.TwitchChannel;
 
+import java.util.List;
+
 public class ChannelDaoImpl implements ChannelDao {
     private Session session;
 
@@ -12,11 +14,23 @@ public class ChannelDaoImpl implements ChannelDao {
 
     @Override
     public TwitchChannel get(long id) {
-        return null;
+        return session.get(TwitchChannel.class, id);
     }
 
     @Override
     public long addChannel(TwitchChannel channel) {
-        return 0;
+        return (long) session.save(channel);
     }
+
+    @Override
+    public List<TwitchChannel> getAll() {
+        return session.createQuery("select c from TwitchChannel c").list();
+    }
+
+    @Override
+    public void update(TwitchChannel channel) {
+        session.update(channel);
+    }
+
+
 }
