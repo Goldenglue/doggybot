@@ -24,7 +24,7 @@ public class ChannelDaoImpl implements ChannelDao {
 
     @Override
     public List<TwitchChannel> getAll() {
-        return session.createQuery("select c from TwitchChannel c").list();
+        return session.createQuery("from TwitchChannel").list();
     }
 
     @Override

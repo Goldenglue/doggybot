@@ -1,7 +1,10 @@
 package twitch.database;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import twitch.dataobjects.TwitchChannel;
+
+import java.util.List;
 
 public class ChannelService {
     private final DatabaseService databaseService;
@@ -18,7 +21,16 @@ public class ChannelService {
 
     public long insertChannel(TwitchChannel channel) {
         Session session = databaseService.getFactory().openSession();
+        Transaction transaction = session.beginTransaction();
         ChannelDaoImpl channelDao = new ChannelDaoImpl(session);
-        return channelDao.addChannel(channel);
+        long l = channelDao.addChannel(channel);
+        transaction.commit();
+        return l;
+    }
+
+    public List<TwitchChannel> getAll() {
+        Session session = databaseService.getFactory().openSession();
+        ChannelDaoImpl channelDao = new ChannelDaoImpl(session);
+        return channelDao.getAll();
     }
 }

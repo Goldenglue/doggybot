@@ -2,41 +2,64 @@ package twitch.dataobjects;
 
 import irc.Channel;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.io.Serializable;
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-public class TwitchChannel implements Serializable {
+public class TwitchChannel {
     @Id
     @GeneratedValue
     private long ID;
     private String name;
-    @ElementCollection
-    private Map<String, String> channelCommands = new HashMap<>();
+    /*@ElementCollection
+    private Map<String, String> channelCommands = new HashMap<>();*/
 
-    @SuppressWarnings("UnusedDeclaration")
     public TwitchChannel(Channel channel) {
         this.name = channel.getChannelName();
     }
 
-    @SuppressWarnings("UnusedDeclaration")
     public TwitchChannel() {
+    }
+
+    public TwitchChannel(long id, String name) {
+        this.ID = id;
+        this.name = name;
+    }
+
+    public TwitchChannel(String name) {
+        this.name = name;
     }
 
     public long getID() {
         return ID;
     }
 
+    public void setID(long ID) {
+        this.ID = ID;
+    }
+
     public String getName() {
         return name;
     }
 
-    public Map<String, String> getChannelCommands() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /*public Map<String, String> getChannelCommands() {
         return channelCommands;
+    }
+
+    public void setChannelCommands(Map<String, String> channelCommands) {
+        this.channelCommands = channelCommands;
+    }*/
+
+    @Override
+    public String toString() {
+        return "TwitchChannel{" +
+                "ID=" + ID +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
