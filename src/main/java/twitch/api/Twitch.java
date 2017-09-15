@@ -1,6 +1,5 @@
 package twitch.api;
 
-import com.fasterxml.jackson.core.PrettyPrinter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.OkHttpClient;
@@ -48,6 +47,7 @@ public class Twitch {
         return 0;
     }
 
+
     public static JsonNode executeHttpGet(String request) {
         try {
             Request getRequest = new Request.Builder()
@@ -57,10 +57,9 @@ public class Twitch {
                     .header("Authorization", "OAuth " + token)
                     .get().build();
             Response response = okHttp.newCall(getRequest).execute();
-            JsonNode jsonNode = new ObjectMapper().readTree(response.body().string());
-            twitch.utils.PrettyPrinter.prettyPrintJSonNode(jsonNode);
+
             if (response.code() == 200) {
-                return jsonNode;
+                return new ObjectMapper().readTree(response.body().string());
             }
         } catch (IOException e) {
             e.printStackTrace();

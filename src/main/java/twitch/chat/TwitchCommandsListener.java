@@ -27,8 +27,14 @@ public class TwitchCommandsListener extends ListenerAdapter {
             case "!part":
                 part(event);
                 break;
-
+            case "!addCommand":
+                addCommand(event);
+                break;
         }
+    }
+
+    private void addCommand(MessageEvent event) {
+
     }
 
     private void part(MessageEvent event) {
