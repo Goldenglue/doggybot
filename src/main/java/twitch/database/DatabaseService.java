@@ -12,7 +12,6 @@ public class DatabaseService {
         factory = configuration.buildSessionFactory();
     }
 
-
     private Configuration createConfiguration() {
         Configuration configuration = new Configuration();
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");

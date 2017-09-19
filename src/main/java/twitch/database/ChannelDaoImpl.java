@@ -24,12 +24,19 @@ public class ChannelDaoImpl implements ChannelDao {
 
     @Override
     public List<TwitchChannel> getAll() {
-        return session.createQuery("from TwitchChannel").list();
+        return session.createQuery("select t from TwitchChannel t").list();
     }
 
     @Override
     public void update(TwitchChannel channel) {
         session.update(channel);
+    }
+
+    @Override
+    public TwitchChannel get(String name) {
+        return (TwitchChannel) session.createQuery("select t from TwitchChannel t where t.name = :name" )
+                .setParameter("name", name)
+                .uniqueResult();
     }
 
 

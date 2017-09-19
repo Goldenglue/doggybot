@@ -12,8 +12,8 @@ public class TwitchChannel {
     @GeneratedValue
     private long ID;
     private String name;
-    /*@ElementCollection
-    private Map<String, String> channelCommands = new HashMap<>();*/
+    @ElementCollection
+    private Map<String, String> channelCommands = new HashMap<>();
 
     public TwitchChannel(Channel channel) {
         this.name = channel.getChannelName();
@@ -47,19 +47,24 @@ public class TwitchChannel {
         this.name = name;
     }
 
-    /*public Map<String, String> getChannelCommands() {
+    public Map<String, String> getChannelCommands() {
         return channelCommands;
     }
 
     public void setChannelCommands(Map<String, String> channelCommands) {
         this.channelCommands = channelCommands;
-    }*/
+    }
 
     @Override
     public String toString() {
         return "TwitchChannel{" +
                 "ID=" + ID +
                 ", name='" + name + '\'' +
+                ", channelCommands=" + channelCommands +
                 '}';
+    }
+
+    public void addCommand(String command, String response) {
+        channelCommands.put(command, response);
     }
 }

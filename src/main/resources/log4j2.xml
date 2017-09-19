@@ -7,7 +7,10 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Root level="TRACE">
+        <Logger name="org.hibernate" level="error">
+            <AppenderRef ref="ConsoleAppender"/>
+        </Logger>
+        <Root level="trace">
             <AppenderRef ref="ConsoleAppender"/>
         </Root>
     </Loggers>

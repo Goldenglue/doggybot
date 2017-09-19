@@ -54,6 +54,5 @@ public class TwitchChat {
 
     public static void start() {
         bot.start();
-        //bot.send("PRIVMSG #embertraveller :DoggyBot is ready! PogChamp");
     }
 }

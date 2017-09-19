@@ -12,4 +12,6 @@ public interface ChannelDao {
     List<TwitchChannel> getAll();
 
     void update(TwitchChannel channel);
+
+    TwitchChannel get(String name);
 }
