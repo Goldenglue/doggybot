@@ -17,6 +17,9 @@ public class TwitchCommandsListener extends ListenerAdapter {
             String command = event.getMessage().split(" ")[0];
             checkForAvailableCommands(command, event);
         }
+        if (event.getMessage().toLowerCase().contains("ember")) {
+            onEmber(event);
+        }
     }
 
     private void checkForAvailableCommands(String possibleCommand, MessageEvent event) {
@@ -43,8 +46,17 @@ public class TwitchCommandsListener extends ListenerAdapter {
         checkForUserCommand(possibleCommand, event);
     }
 
+    private void onEmber(MessageEvent event) {
+        event.respond("Who is this ember dude? Maybe you meant DestroyerOfUniverses? DansGame");
+    }
+
     private void viewers(MessageEvent event) {
-        event.respond(Twitch.getViewers(event.getChannel().getChannelName()) + " people are watching right now! ");
+        int viewers = Twitch.getViewers(event.getChannel().getChannelName());
+        if (viewers != -1) {
+            event.respond(viewers + " people are watching right now! ");
+        } else {
+            event.respond("Y u try to get offline stream viewers? DansGame");
+        }
     }
 
     private void clap(MessageEvent event) {
@@ -73,6 +85,7 @@ public class TwitchCommandsListener extends ListenerAdapter {
         System.out.println("Not found!");
     }
 
+    //man that's bullshit
     private void addCommand(MessageEvent event) {
         /*if (event.getTags().get(""))
         TwitchChannel channel = event.getBot().getConfig().getChannelService().findByName(event.getChannel().getChannelName());

@@ -42,6 +42,8 @@ public class Twitch {
         JsonNode root = executeHttpGet("https://api.twitch.tv/kraken/streams/" + getChannelId(channel));
         if (root != null && root.has("stream") && root.get("stream").has("created_at")) {
             return root.get("stream").get("viewers").intValue();
+        } else if (root.has("stream") && root.get("stream").asText().equals("null")) {
+            return -1;
         }
         return 0;
     }
