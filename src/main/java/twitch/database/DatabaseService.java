@@ -21,6 +21,7 @@ public class DatabaseService {
         configuration.setProperty("hibernate.connection.password", "woofwoof");
         configuration.setProperty("hibernate.show_sql", "false");
         configuration.setProperty("hibernate.hbm2ddl.auto", "create");
+        configuration.setProperty("hibernate.jdbc.batch_size","0");
         configuration.addAnnotatedClass(TwitchChannel.class);
         return configuration;
     }

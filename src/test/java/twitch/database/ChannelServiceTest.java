@@ -30,7 +30,7 @@ public class ChannelServiceTest {
 
     @Test
     public void insertChannel() throws Exception {
-        channels.forEach(channel -> service.insertChannel(channel));
+        channels.forEach(channel -> service.add(channel));
     }
 
     @Test

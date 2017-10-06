@@ -13,7 +13,10 @@ public class TwitchChannel {
     private long ID;
     private String name;
     @ElementCollection
-    private Map<String, String> channelCommands = new HashMap<>();
+    @CollectionTable(name = "commands_table")
+    @Column(name = "commands")
+    private Map<String, String> commands = new HashMap<>();
+    private String test;
 
     public TwitchChannel(Channel channel) {
         this.name = channel.getChannelName();
@@ -47,12 +50,12 @@ public class TwitchChannel {
         this.name = name;
     }
 
-    public Map<String, String> getChannelCommands() {
-        return channelCommands;
+    public Map<String, String> getCommands() {
+        return commands;
     }
 
-    public void setChannelCommands(Map<String, String> channelCommands) {
-        this.channelCommands = channelCommands;
+    public void setCommands(Map<String, String> commands) {
+        this.commands = commands;
     }
 
     @Override
@@ -60,11 +63,19 @@ public class TwitchChannel {
         return "TwitchChannel{" +
                 "ID=" + ID +
                 ", name='" + name + '\'' +
-                ", channelCommands=" + channelCommands +
+                ", commands=" + commands +
                 '}';
     }
 
     public void addCommand(String command, String response) {
-        channelCommands.put(command, response);
+        commands.put(command, response);
+    }
+
+    public String getTest() {
+        return test;
+    }
+
+    public void setTest(String test) {
+        this.test = test;
     }
 }

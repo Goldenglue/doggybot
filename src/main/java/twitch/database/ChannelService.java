@@ -14,7 +14,7 @@ public class ChannelService implements Service {
         return channelDao.get(id);
     }
 
-    public long insertChannel(TwitchChannel channel) {
+    public long add(TwitchChannel channel) {
         Session session = databaseService.getFactory().openSession();
         Transaction transaction = session.beginTransaction();
         ChannelDao channelDao = new ChannelDaoImpl(session);
@@ -33,5 +33,14 @@ public class ChannelService implements Service {
         Session session = databaseService.getFactory().openSession();
         ChannelDao channelDao = new ChannelDaoImpl(session);
         return channelDao.get(name);
+    }
+
+    public void update(TwitchChannel channel) {
+        Session session = databaseService.getFactory().openSession();
+        Transaction transaction = session.getTransaction();
+        transaction.begin();
+        ChannelDao channelDao = new ChannelDaoImpl(session);
+        channelDao.update(channel);
+        transaction.commit();
     }
 }

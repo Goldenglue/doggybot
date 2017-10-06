@@ -16,20 +16,7 @@ public class Doggy {
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {
-        ChannelService channelService = new ChannelService();
-        TwitchChannel jej = new TwitchChannel(new Channel("jej"));
-        jej.addCommand("dai","mne");
-        channelService.insertChannel(jej);
-        TwitchChannel heh = new TwitchChannel(new Channel("heh"));
-        channelService.insertChannel(heh);
-        TwitchChannel hoh = new TwitchChannel(new Channel("hoh"));
-        channelService.insertChannel(hoh);
-        TwitchChannel hah = new TwitchChannel(new Channel("hah"));
-        channelService.insertChannel(hah);
-
-        System.out.println(channelService.getAll());
-
-        //TwitchChat.start();
+        TwitchChat.start();
     }
 
 }

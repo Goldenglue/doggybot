@@ -1,11 +1,14 @@
 package twitch.chat;
 
+import irc.Channel;
 import irc.events.ListenerAdapter;
 import irc.events.events.MessageEvent;
 import twitch.api.Twitch;
+import twitch.dataobjects.TwitchChannel;
 import twitch.utils.StringFormatting;
 
 import java.time.Duration;
+import java.util.Random;
 
 public class TwitchCommandsListener extends ListenerAdapter {
     @Override
@@ -30,11 +33,58 @@ public class TwitchCommandsListener extends ListenerAdapter {
             case "!addCommand":
                 addCommand(event);
                 break;
+            case "!clap":
+                clap(event);
+                break;
+            case "!viewers":
+                viewers(event);
+                break;
         }
+        checkForUserCommand(possibleCommand, event);
+    }
+
+    private void viewers(MessageEvent event) {
+        event.respond(Twitch.getViewers(event.getChannel().getChannelName()) + " people are watching right now! ");
+    }
+
+    private void clap(MessageEvent event) {
+        StringBuilder clapBuilder = new StringBuilder();
+        Random random = new Random();
+        switch (random.nextInt(6)) {
+            case 0: clapBuilder.append("KappaPride ");break;
+            case 1: clapBuilder.append("Kappa ");break;
+            case 2: clapBuilder.append("PogChamp ");break;
+            case 3: clapBuilder.append("FrankerZ ");break;
+            case 4: clapBuilder.append("CoolCat ");break;
+            case 5: clapBuilder.append("RalpherZ ");
+        }
+        clapBuilder.append(" //");
+        event.respond(clapBuilder.toString());
+    }
+
+    private void checkForUserCommand(String possibleCommand, MessageEvent event) {
+        TwitchChannel channel = event.getBot().getConfig().getChannelService().findByName(event.getChannel().getChannelName());
+
+        if (channel.getCommands().containsKey(possibleCommand)) {
+            System.out.println("Found!");
+            event.respond(channel.getCommands().get(possibleCommand));
+        }
+
+        System.out.println("Not found!");
     }
 
     private void addCommand(MessageEvent event) {
+        /*if (event.getTags().get(""))
+        TwitchChannel channel = event.getBot().getConfig().getChannelService().findByName(event.getChannel().getChannelName());
 
+        String[] messageParts = event.getMessage().split("\\s", 3);
+        channel.addCommand(messageParts[1],messageParts[2]);
+
+        System.out.println("Creating command " + messageParts[1] + " which means " + messageParts[2]);
+
+        event.getBot().getConfig().getChannelService().update(channel);
+
+        event.respond("Command " + messageParts[1] + " created!");*/
     }
 
     private void part(MessageEvent event) {
@@ -51,7 +101,13 @@ public class TwitchCommandsListener extends ListenerAdapter {
      */
     private void join(MessageEvent event) {
         if (event.getChannel().getChannelName().equals("doggybotthefirst") && !event.getBot().getConfig().getChannels().contains(event.getUser().getUserChannel())) {
-            event.getBot().joinChannel(event.getUser().getUsername());
+            Channel channel = new Channel(event.getUser().getUsername());
+            event.getBot().joinChannel(channel);
+
+            TwitchChannel twitchChannel = new TwitchChannel(channel);
+            event.getBot().getConfig().getChannelService().add(twitchChannel);
+
+            event.respondToUserChannel("Hello "  + event.getUser().getUsername() + " PogChamp");
         }
 
     }

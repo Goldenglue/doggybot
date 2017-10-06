@@ -65,7 +65,7 @@ public class DoggyBot {
         sendLineToServer("CAP REQ :twitch.tv/commands");
 
         if (!getConfig().getChannelsToAutoJoin().isEmpty()) {
-            getConfig().getChannelsToAutoJoin().forEach(channel -> joinChannel(channel.getChannelName()));
+            getConfig().getChannelsToAutoJoin().forEach(this::joinChannel);
         }
 
         return true;
@@ -107,9 +107,13 @@ public class DoggyBot {
         outputQueue.send(line);
     }
 
-    public void joinChannel(String channelName) {
-        getConfig().addChannel(new Channel(channelName));
-        send("JOIN #" + channelName);
+    public void joinChannel(Channel channel) {
+        if (!getConfig().getChannels().contains(channel)) {
+            getConfig().addChannel(channel);
+            send("JOIN #" + channel.getChannelName());
+        } else {
+            logger.error("Such Channel already exists!");
+        }
     }
 
     public void partFromChannel(Channel userChannel) {

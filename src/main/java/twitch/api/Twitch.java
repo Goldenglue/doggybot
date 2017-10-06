@@ -38,6 +38,14 @@ public class Twitch {
         return Duration.ZERO;
     }
 
+    public static int getViewers(String channel) {
+        JsonNode root = executeHttpGet("https://api.twitch.tv/kraken/streams/" + getChannelId(channel));
+        if (root != null && root.has("stream") && root.get("stream").has("created_at")) {
+            return root.get("stream").get("viewers").intValue();
+        }
+        return 0;
+    }
+
     private static int getChannelId(String channel) {
         JsonNode root = executeHttpGet("https://api.twitch.tv/kraken/users?login=" + channel);
         if (root != null && root.has("_total") && root.get("_total").asInt() == 1) {

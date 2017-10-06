@@ -29,12 +29,15 @@ public class ChannelDaoImpl implements ChannelDao {
 
     @Override
     public void update(TwitchChannel channel) {
+        /*int i = session.createQuery("update TwitchChannel t set t.commands = :commands where t.id = :id")
+                .setParameter("commands", channel.getCommands())
+                .setParameter("id", channel.getID()).executeUpdate();*/
         session.update(channel);
     }
 
     @Override
     public TwitchChannel get(String name) {
-        return (TwitchChannel) session.createQuery("select t from TwitchChannel t where t.name = :name" )
+        return (TwitchChannel) session.createQuery("select t from TwitchChannel t where t.name = :name")
                 .setParameter("name", name)
                 .uniqueResult();
     }
