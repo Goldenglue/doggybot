@@ -100,7 +100,11 @@ public class TwitchCommandsListener extends ListenerAdapter {
 
         System.out.println("Creating command " + messageParts[1] + " which means " + messageParts[2]);
 
-        event.getBot().getConfig().getChannelService().update(channel);
+        try {
+            event.getBot().getConfig().getChannelService().update(channel);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         event.respond("Command " + messageParts[1] + " created!");
     }

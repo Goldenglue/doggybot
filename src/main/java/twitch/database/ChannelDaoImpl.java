@@ -3,6 +3,8 @@ package twitch.database;
 import org.hibernate.Session;
 import twitch.dataobjects.TwitchChannel;
 
+import javax.transaction.TransactionScoped;
+import javax.transaction.Transactional;
 import java.util.List;
 
 public class ChannelDaoImpl implements ChannelDao {
@@ -29,7 +31,7 @@ public class ChannelDaoImpl implements ChannelDao {
 
     @Override
     public void update(TwitchChannel channel) {
-        session.update(channel);
+        session.merge(channel);
     }
 
     @Override
