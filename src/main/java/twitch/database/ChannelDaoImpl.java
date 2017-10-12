@@ -29,9 +29,6 @@ public class ChannelDaoImpl implements ChannelDao {
 
     @Override
     public void update(TwitchChannel channel) {
-        /*int i = session.createQuery("update TwitchChannel t set t.commands = :commands where t.id = :id")
-                .setParameter("commands", channel.getCommands())
-                .setParameter("id", channel.getID()).executeUpdate();*/
         session.update(channel);
     }
 

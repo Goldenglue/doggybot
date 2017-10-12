@@ -4,10 +4,12 @@ import irc.Channel;
 import irc.events.ListenerAdapter;
 import irc.events.events.MessageEvent;
 import twitch.api.Twitch;
+import twitch.dataobjects.ChannelCommand;
 import twitch.dataobjects.TwitchChannel;
 import twitch.utils.StringFormatting;
 
 import java.time.Duration;
+import java.util.Optional;
 import java.util.Random;
 
 public class TwitchCommandsListener extends ListenerAdapter {
@@ -77,27 +79,30 @@ public class TwitchCommandsListener extends ListenerAdapter {
     private void checkForUserCommand(String possibleCommand, MessageEvent event) {
         TwitchChannel channel = event.getBot().getConfig().getChannelService().findByName(event.getChannel().getChannelName());
 
-        if (channel.getCommands().containsKey(possibleCommand)) {
-            System.out.println("Found!");
-            event.respond(channel.getCommands().get(possibleCommand));
-        }
+        Optional<ChannelCommand> channelCommand = channel.getCommands()
+                .stream()
+                .filter(command -> command.getExecutor().equals(possibleCommand))
+                .findFirst();
+        channelCommand.ifPresent(command -> event.respond(command.getCommand()));
 
-        System.out.println("Not found!");
+
     }
 
     //man that's bullshit
     private void addCommand(MessageEvent event) {
-        /*if (event.getTags().get(""))
+        System.out.println("Starting adding command");
         TwitchChannel channel = event.getBot().getConfig().getChannelService().findByName(event.getChannel().getChannelName());
+        System.out.println("Got channel");
 
         String[] messageParts = event.getMessage().split("\\s", 3);
-        channel.addCommand(messageParts[1],messageParts[2]);
+        ChannelCommand channelCommand = new ChannelCommand(messageParts[1], messageParts[2]);
+        channel.addCommand(channelCommand);
 
         System.out.println("Creating command " + messageParts[1] + " which means " + messageParts[2]);
 
         event.getBot().getConfig().getChannelService().update(channel);
 
-        event.respond("Command " + messageParts[1] + " created!");*/
+        event.respond("Command " + messageParts[1] + " created!");
     }
 
     private void part(MessageEvent event) {

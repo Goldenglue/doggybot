@@ -3,20 +3,17 @@ package twitch.dataobjects;
 import irc.Channel;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity
+@Entity(name = "TwitchChannel")
 public class TwitchChannel {
     @Id
     @GeneratedValue
     private long ID;
     private String name;
-    @ElementCollection
-    @CollectionTable(name = "commands_table")
-    @Column(name = "commands")
-    private Map<String, String> commands = new HashMap<>();
-    private String test;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ChannelCommand> commands = new ArrayList<>();
 
     public TwitchChannel(Channel channel) {
         this.name = channel.getChannelName();
@@ -50,32 +47,16 @@ public class TwitchChannel {
         this.name = name;
     }
 
-    public Map<String, String> getCommands() {
+    public List<ChannelCommand> getCommands() {
         return commands;
     }
 
-    public void setCommands(Map<String, String> commands) {
+    public void setCommands(List<ChannelCommand> commands) {
         this.commands = commands;
     }
 
-    @Override
-    public String toString() {
-        return "TwitchChannel{" +
-                "ID=" + ID +
-                ", name='" + name + '\'' +
-                ", commands=" + commands +
-                '}';
+    public void addCommand(ChannelCommand channelCommand) {
+        commands.add(channelCommand);
     }
 
-    public void addCommand(String command, String response) {
-        commands.put(command, response);
-    }
-
-    public String getTest() {
-        return test;
-    }
-
-    public void setTest(String test) {
-        this.test = test;
-    }
 }

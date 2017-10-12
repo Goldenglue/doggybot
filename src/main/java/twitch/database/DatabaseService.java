@@ -2,6 +2,7 @@ package twitch.database;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import twitch.dataobjects.ChannelCommand;
 import twitch.dataobjects.TwitchChannel;
 
 public class DatabaseService {
@@ -19,10 +20,11 @@ public class DatabaseService {
         configuration.setProperty("hibernate.connection.url", "jdbc:h2:~/goggysdb");
         configuration.setProperty("hibernate.connection.username", "doggybot");
         configuration.setProperty("hibernate.connection.password", "woofwoof");
-        configuration.setProperty("hibernate.show_sql", "false");
+        configuration.setProperty("hibernate.show_sql", "true");
         configuration.setProperty("hibernate.hbm2ddl.auto", "create");
         configuration.setProperty("hibernate.jdbc.batch_size","0");
         configuration.addAnnotatedClass(TwitchChannel.class);
+        configuration.addAnnotatedClass(ChannelCommand.class);
         return configuration;
     }
 

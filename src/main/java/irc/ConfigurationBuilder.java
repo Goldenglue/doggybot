@@ -1,8 +1,6 @@
 package irc;
 
-import irc.events.GenericEventsListener;
 import irc.events.Listener;
-import irc.events.managers.AbstractListenerManager;
 import irc.events.managers.ListenerManager;
 
 import java.util.HashSet;

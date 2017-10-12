@@ -3,6 +3,7 @@ package irc;
 import irc.events.Listener;
 import irc.events.managers.ListenerManager;
 import twitch.database.ChannelService;
+import twitch.database.DatabaseService;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +17,7 @@ public class Configuration {
     private ListenerManager listenerManager;
     private final Set<Channel> channels = new HashSet<>();
     private final Set<Channel> channelsToAutoJoin;
-    private ChannelService channelService = new ChannelService();
+    private ChannelService channelService = new ChannelService(new DatabaseService());
 
     public Configuration(String name, int delay, String host, int port, String password, ListenerManager listenerManager, Set<Channel> channelsToAutoJoin) {
         this.name = name;
