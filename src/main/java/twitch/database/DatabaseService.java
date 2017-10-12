@@ -3,6 +3,7 @@ package twitch.database;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import twitch.dataobjects.ChannelCommand;
+import twitch.dataobjects.ScheduledChannelCommand;
 import twitch.dataobjects.TwitchChannel;
 
 public class DatabaseService {
@@ -25,6 +26,7 @@ public class DatabaseService {
         configuration.setProperty("hibernate.jdbc.batch_size","0");
         configuration.addAnnotatedClass(TwitchChannel.class);
         configuration.addAnnotatedClass(ChannelCommand.class);
+        configuration.addAnnotatedClass(ScheduledChannelCommand.class);
         return configuration;
     }
 

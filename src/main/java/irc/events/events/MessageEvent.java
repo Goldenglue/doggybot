@@ -28,6 +28,10 @@ public class MessageEvent extends Event implements ChannelEvent, UserEvent {
         bot.send("PRIVMSG #" + getChannel().getChannelName() + " :@" + getUser().getUsername() + " " + response);
     }
 
+    public void respondToChannel(String response) {
+        bot.send("PRIVMSG #" + getChannel().getChannelName() + " " + response);
+    }
+
     public void respondToUserChannel(String response) {
         bot.send("PRIVMSG #" + getUser().getUserChannel().getChannelName() + " :@" + getUser().getUsername() + " " + response);
     }

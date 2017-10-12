@@ -5,6 +5,7 @@ import irc.events.ListenerAdapter;
 import irc.events.events.MessageEvent;
 import twitch.api.Twitch;
 import twitch.dataobjects.ChannelCommand;
+import twitch.dataobjects.ScheduledChannelCommand;
 import twitch.dataobjects.TwitchChannel;
 import twitch.utils.StringFormatting;
 
@@ -38,6 +39,9 @@ public class TwitchCommandsListener extends ListenerAdapter {
             case "!addCommand":
                 addCommand(event);
                 break;
+            case "!addScheduledCommand":
+                addScheduledCommand(event);
+                break;
             case "!clap":
                 clap(event);
                 break;
@@ -65,12 +69,23 @@ public class TwitchCommandsListener extends ListenerAdapter {
         StringBuilder clapBuilder = new StringBuilder();
         Random random = new Random();
         switch (random.nextInt(6)) {
-            case 0: clapBuilder.append("KappaPride ");break;
-            case 1: clapBuilder.append("Kappa ");break;
-            case 2: clapBuilder.append("PogChamp ");break;
-            case 3: clapBuilder.append("FrankerZ ");break;
-            case 4: clapBuilder.append("CoolCat ");break;
-            case 5: clapBuilder.append("RalpherZ ");
+            case 0:
+                clapBuilder.append("KappaPride ");
+                break;
+            case 1:
+                clapBuilder.append("Kappa ");
+                break;
+            case 2:
+                clapBuilder.append("PogChamp ");
+                break;
+            case 3:
+                clapBuilder.append("FrankerZ ");
+                break;
+            case 4:
+                clapBuilder.append("CoolCat ");
+                break;
+            case 5:
+                clapBuilder.append("RalpherZ ");
         }
         clapBuilder.append(" //");
         event.respond(clapBuilder.toString());
@@ -88,25 +103,49 @@ public class TwitchCommandsListener extends ListenerAdapter {
 
     }
 
-    //man that's bullshit
     private void addCommand(MessageEvent event) {
-        System.out.println("Starting adding command");
-        TwitchChannel channel = event.getBot().getConfig().getChannelService().findByName(event.getChannel().getChannelName());
-        System.out.println("Got channel");
+        if (event.getTags().containsKey("@badges")) {
+            String badges = event.getTags().get("@badges");
+            if (badges.contains("moderator") || badges.contains("broadcaster")) {
+                TwitchChannel channel = event.getBot().getConfig().getChannelService().findByName(event.getChannel().getChannelName());
 
-        String[] messageParts = event.getMessage().split("\\s", 3);
-        ChannelCommand channelCommand = new ChannelCommand(messageParts[1], messageParts[2]);
-        channel.addCommand(channelCommand);
+                String[] messageParts = event.getMessage().split("\\s", 3);
+                ChannelCommand channelCommand = new ChannelCommand(messageParts[1], messageParts[2]);
+                channel.addCommand(channelCommand);
 
-        System.out.println("Creating command " + messageParts[1] + " which means " + messageParts[2]);
+                try {
+                    event.getBot().getConfig().getChannelService().update(channel);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-        try {
-            event.getBot().getConfig().getChannelService().update(channel);
-        } catch (Exception e) {
-            e.printStackTrace();
+                event.respond("Command " + messageParts[1] + " created!");
+            }
         }
+    }
 
-        event.respond("Command " + messageParts[1] + " created!");
+    private void addScheduledCommand(MessageEvent event) {
+        if (event.getTags().containsKey("@badges")) {
+            String badges = event.getTags().get("@badges");
+            if (badges.contains("moderator") || badges.contains("broadcaster")) {
+                TwitchChannel channel = event.getBot().getConfig().getChannelService().findByName(event.getChannel().getChannelName());
+
+                String[] messageParts = event.getMessage().split("\\s", 4);
+                ScheduledChannelCommand scheduledChannelCommand = new ScheduledChannelCommand(messageParts[1], messageParts[3], Long.parseLong(messageParts[2]));
+                channel.addScheduledCommand(scheduledChannelCommand);
+                event.getBot().getConfig().getTaskScheduler().scheduleAtFixedRate(() -> event.respondToChannel(scheduledChannelCommand.getCommand()), scheduledChannelCommand.getPeriod());
+
+                try {
+                    event.getBot().getConfig().getChannelService().update(channel);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                TwitchChannel byName = event.getBot().getConfig().getChannelService().findByName(event.getChannel().getChannelName());
+                System.out.println(byName.getScheduledCommands());
+
+                event.respond("Command " + messageParts[3] + " created!");
+            }
+        }
     }
 
     private void part(MessageEvent event) {
@@ -129,7 +168,7 @@ public class TwitchCommandsListener extends ListenerAdapter {
             TwitchChannel twitchChannel = new TwitchChannel(channel);
             event.getBot().getConfig().getChannelService().add(twitchChannel);
 
-            event.respondToUserChannel("Hello "  + event.getUser().getUsername() + " PogChamp");
+            event.respondToUserChannel("Hello " + event.getUser().getUsername() + " PogChamp");
         }
 
     }

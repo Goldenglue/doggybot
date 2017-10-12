@@ -14,6 +14,8 @@ public class TwitchChannel {
     private String name;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ChannelCommand> commands = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ScheduledChannelCommand> scheduledCommands = new ArrayList<>();
 
     public TwitchChannel(Channel channel) {
         this.name = channel.getChannelName();
@@ -59,4 +61,15 @@ public class TwitchChannel {
         commands.add(channelCommand);
     }
 
+    public List<ScheduledChannelCommand> getScheduledCommands() {
+        return scheduledCommands;
+    }
+
+    public void setScheduledCommands(List<ScheduledChannelCommand> scheduledCommands) {
+        this.scheduledCommands = scheduledCommands;
+    }
+
+    public void addScheduledCommand(ScheduledChannelCommand scheduledChannelCommand) {
+        scheduledCommands.add(scheduledChannelCommand);
+    }
 }
