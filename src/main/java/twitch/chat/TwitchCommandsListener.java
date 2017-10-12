@@ -140,8 +140,6 @@ public class TwitchCommandsListener extends ListenerAdapter {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                TwitchChannel byName = event.getBot().getConfig().getChannelService().findByName(event.getChannel().getChannelName());
-                System.out.println(byName.getScheduledCommands());
 
                 event.respond("Command " + messageParts[3] + " created!");
             }
